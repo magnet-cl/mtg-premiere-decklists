@@ -1,0 +1,8 @@
+{% csrf_token %}
+- if form.fieldsets
+  - for fieldset in form.fieldsets
+    fieldset(class="{{ fieldset.classes }}", data-index="{{forloop.counter0}}")
+      {% include "includes/fieldset.pug"%}
+- else 
+  - for field in form
+    {% include "includes/field.pug"%}

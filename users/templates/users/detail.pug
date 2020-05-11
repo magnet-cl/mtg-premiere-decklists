@@ -1,0 +1,21 @@
+extends base.pug
+
+block options
+  a.btn.btn-sm.btn-outline-secondary(href="{% url 'user_edit' %}")
+    | Editar
+
+block content
+  div.detail
+    div.row
+      div.col-md-7
+        table.table.table-striped.table-hover.table-bordered.table-sm
+          tr
+            th Nombre
+            td {{user.first_name}}
+          tr
+            th Apellido
+            td {{user.last_name}}
+          tr
+            th Correo Electrónico
+            td {{user.email}}
+        div.text-right

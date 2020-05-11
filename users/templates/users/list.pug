@@ -1,0 +1,43 @@
+extends base.pug
+
+- load i18n
+
+block options
+  if perms.users.add_user
+    a.btn.btn-sm.btn-outline-secondary(href="{% url 'register' %}")
+      | {% trans 'Add user' %}
+
+block content
+  .row
+    .offset-sm-8.col-sm-4
+      form()
+        .view-controls.text-left
+          .input-group.mb-3
+            input.form-control(
+              name="q",
+              placeholder="{% trans 'Search by name or email' %}",
+              type="text",
+              value="{{q|default:''}}"
+            )
+            .input-group-append
+              button.btn.btn-outline-secondary(type="submit")
+                i.fa.fa-search
+
+        for order in ordering
+          input(type="hidden", name="o", value="{{order}}")
+
+  table.table.table-striped.table-sm
+    thead
+      tr
+        {% include 'includes/list_th.pug' with order_by='first_name' verbose_name='Nombre'%}
+        {% include 'includes/list_th.pug' with order_by='email' verbose_name='Email'%}
+        {% include 'includes/list_th.pug' with order_by='groups' verbose_name='Grupos'%}
+
+    tbody
+      for iter_user in user_list
+        tr
+          td {{ iter_user.get_full_name }}
+          td {{ iter_user.email }}
+          td {{ iter_user.group_names }}
+
+  {% include 'includes/pagination.pug' with objects=page_obj %}

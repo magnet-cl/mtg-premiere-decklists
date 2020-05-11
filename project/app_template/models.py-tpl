@@ -1,0 +1,49 @@
+# -*- coding: utf-8 -*-
+""" Models for the {{app_name}} application. """
+# standard library
+
+# django
+from django.urls import reverse
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+
+# models
+from base.models import BaseModel
+from users.models import User
+from .managers import {{model_name}}QuerySet
+
+
+class {{model_name}}(BaseModel):
+    """
+    TODO: Fill this description
+    The {{plural_model_verbose_name}} system is used to store {{model_verbose_name}}.
+    """
+    # foreign keys
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('user'),
+    )
+    # required fields
+    name = models.CharField(
+        _('name'),
+        max_length=30,
+        unique=True,
+    )
+    # optional fields
+    
+    # Manager
+    objects = {{model_name}}QuerySet.as_manager()
+
+    class Meta:
+        verbose_name = _('{{model_verbose_name}}')
+        verbose_name_plural = _('{{plural_model_verbose_name}}')
+
+    def __str__(self):
+        # TODO this is an example str return, change it
+        return self.name
+
+    def get_absolute_url(self):
+        """ Returns the canonical URL for the {{model_name}} object """
+        # TODO this is an example, change it
+        return reverse('{{snake_case_model_name}}_detail', args=(self.pk,))

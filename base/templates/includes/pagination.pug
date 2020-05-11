@@ -1,0 +1,37 @@
+- load order_by_querystring i18n
+
+.row
+  .col-sm-9.col-sm-offset-2
+    nav(aria-label="{% trans 'pagination' %}")
+      ul.pagination.justify-content-center
+
+        if page_obj.has_previous
+          li.page-item
+            a.page-link(
+              href="?p={{ page_obj.previous_page_number }}&{% get_order_by_querystring ordering=ordering %}&{{clean_query_string}}"
+            )
+              | «
+
+        for page in page_obj.paginator.page_range
+          if page == page_obj.number
+            li.page-item.active
+              a.page-link(
+                href="?p={{ page }}&{% get_order_by_querystring ordering=ordering %}&{{clean_query_string}}"
+              ) {{ page }}
+          elif page < page_obj.number|add:5 and page > page_obj.number|add:-5
+            li.page-item
+              a.page-link(
+                href="?p={{ page }}&{% get_order_by_querystring ordering=ordering %}&{{clean_query_string}}"
+              ) {{ page }}
+
+        if page_obj.has_next
+          li.page-item
+            a.page-link(href="?p={{ page_obj.next_page_number }}&{% get_order_by_querystring ordering=ordering %}&{{clean_query_string}}") 
+              | »
+  .col-sm-3
+    .text-muted.text-right
+      div
+        | {% blocktrans with start_index=page_obj.start_index end_index=page_obj.end_index %}Showing results from {{start_index}} to {{end_index}}{% endblocktrans %}
+      div
+        | {% trans 'total'|capfirst %}: {{ paginator.count }}
+
